@@ -1,14 +1,38 @@
 <template>
-  <div>会员管理</div>
+  <div>
+      <!-- 列表组件 -->
+      <Vlist @edit="edit" ></Vlist>
+      <!-- 添加修改组件 -->
+      <Vinfo :info="info" ref = "dialog"></Vinfo>
+  </div>
 </template>
 <script>
+import Vlist from './vlist'
+import Vinfo from './vinfo'
 export default {
     data(){
-        return{  }
+        return{ 
+            info:{
+                isAdd:true,
+                isShow:false
+            }
+        }
     },
     created(){},
-    methods:{},
-    components:{}
+    methods:{
+        add(){
+            this.info.isShow = this.info.isAdd = true
+        },
+        edit(val){
+            this.info.isShow=true;
+            this.info.isAdd = false;
+            this.$refs.dialog.setInfo(val)
+        }
+    },
+    mounted() {
+        // console.log(this.$refs.dialog);
+    },
+    components:{Vlist,Vinfo}
 }
 </script>
 <style scoped>

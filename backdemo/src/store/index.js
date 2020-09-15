@@ -9,6 +9,7 @@ import role from "./modules/role"
 import user from "./modules/user"
 import category from "./modules/category"
 import specs from "./modules/specs"
+import member from "./modules/member"
 let store = new Vuex.Store({
     state:{
         iscollapse:false  // 是否折叠，默认不折叠！
@@ -19,7 +20,7 @@ let store = new Vuex.Store({
         }
     },
     modules:{
-        menu,role,user,category,specs
+        menu,role,user,category,specs,member
     }
 })
 
