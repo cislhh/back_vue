@@ -3,7 +3,7 @@
     <el-table :data="bannerlist" row-key="id">
       <el-table-column prop="title" label="轮播图名称" align="center"></el-table-column>
 
-      <el-table-column label="分类图片">
+      <el-table-column label="轮播图图片">
         <template slot-scope="scope">
           <img style="width:80px" v-if="scope.row.img" :src="scope.row.img | imgUrl" alt />
           <span v-else>暂无图片</span>

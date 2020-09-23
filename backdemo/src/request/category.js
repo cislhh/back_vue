@@ -3,8 +3,10 @@ import $axios from "@/common/http"  // 导入封装好的axios!
 /**
  * 获取分类列表
  */
-export async function getCategory() {
-    let res = await $axios.get("/catelist?istree=1")
+export async function getCategory(pid) {
+    let res = await $axios.get("/catelist?istree=1",{
+        paramsP:{pid}
+    })
     if(res.code==200){
         return res.list
     }else{

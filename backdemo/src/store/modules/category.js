@@ -16,6 +16,7 @@ export default {
     actions:{
         async get_cate_list({commit}){
             let res = await getCategory();
+            // console.log(res);
             commit("SET_LIST",res)
         }
     }

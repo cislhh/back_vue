@@ -32,7 +32,7 @@
     <div>
       <el-dropdown>
         <span class="el-dropdown-link">
-          xx你好！
+          {{username}}你好！
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -48,10 +48,18 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations ,mapGetters} from "vuex";
 export default {
+    data(){
+        return {
+            userName:''
+        }
+    },
   computed: {
-    ...mapState(["iscollapse"])
+    ...mapState(["iscollapse"]),
+    ...mapGetters({
+        username:"user/username"
+    })
   },
   methods: {
     ...mapMutations(["TOGGLE"]),
@@ -59,6 +67,9 @@ export default {
       localStorage.removeItem("userinfo");
       this.$router.push("/login")
     }
+  },
+  mounted(){
+    //   console.log(this.username);
   }
 };
 </script>

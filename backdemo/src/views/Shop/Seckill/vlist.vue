@@ -1,14 +1,21 @@
 <template>
   <div class="table-bg">
-    <el-table :data="userlist" row-key="id">
-      <el-table-column prop="uid" label="UID" align="center"></el-table-column>
-      <el-table-column prop="username" label="管理员名称" align="center"></el-table-column>
+    <el-table :data="secklist">
+      <el-table-column prop="title" label="活动名称" align="center"></el-table-column>
+
+      <el-table-column label="开始时间" width="240" align="center">
+        <template slot-scope="scope">{{scope.row.begintime|toTime}}</template>
+      </el-table-column>
+      <el-table-column label="结束时间" width="240" align="center">
+        <template slot-scope="scope">{{scope.row.endtime|toTime}}</template>
+      </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.status==1">启用</el-tag>
           <el-tag type="danger" v-if="scope.row.status==2">禁用</el-tag>
         </template>
       </el-table-column>
+
       <el-table-column label="修改">
         <template slot-scope="scope">
           <el-button
@@ -28,76 +35,55 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      @size-change="set_size"
-      @current-change="set_page"
-      :current-page="page"
-      :page-sizes="[1, 2, 3, 4]"
-      :page-size="size"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-    ></el-pagination>
   </div>
 </template>
-
 <script>
-import { mapGetters, mapActions } from "vuex";
-import { delUser } from "@/request/user";
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import { delseck } from "@/request/seckill";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
-    //获取菜单列表
     ...mapGetters({
-      userlist: "user/userlist",
-      page: "user/page",
-      size: "user/size",
-      total: "user/total"
+      secklist: "seckill/secklist"
     })
   },
   mounted() {
-    //当前菜单列表没有值，调用获取列表函数
-    if (!this.userlist.length) {
-      this.get_user_list();
+    if (!this.secklist.length) {
+      this.get_seck_list();
     }
   },
   methods: {
-    set_size(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    set_page(val) {
-      console.log(`当前页: ${val}`);
-    },
-    ...mapActions({
-      get_user_list: "user/get_user_list",
-      set_size:"user/set_size",
-      set_page:"user/set_page",
+    ...mapMutations({
+      SET_PAGE: "seck/SET_PAGE"
     }),
-    //修改
+    ...mapActions({
+      get_seck_list: "seckill/get_seck_list"
+    }),
     edit(val) {
       this.$emit("edit", { ...val });
     },
-    //删除
-    del(id) {
+    async del(id) {
       this.$confirm("确认删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(async () => {
-        let res = await delUser(id);
-        if (res.code == 200) {
-          this.$message.success(res.msg);
-          this.get_user_list(); // 重新获取列表！
-        } else {
-          this.$message.error(res.msg);
-        }
-      });
+      })
+        .then(async () => {
+          let res = await delseck(id);
+          if (res.code == 200) {
+            this.$message.success(res.msg);
+            this.get_seck_list(); // 重新获取列表！
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+        .catch(() => {});
     }
-  }
+  },
+  components: {}
 };
 </script>
-
-<style lang="" scoped>
+<style scoped>
 </style>

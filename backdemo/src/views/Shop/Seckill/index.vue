@@ -1,39 +1,39 @@
 <template>
   <div>
-      <el-button type="primary" @click="add">添加管理员</el-button>
-      <!-- 列表组件 -->
-      <Vlist @edit="edit" ></Vlist>
-      <!-- 添加修改组件 -->
-      <Vinfo :info="info" ref = "dialog"></Vinfo>
+     <el-button type="primary" @click="add">添加秒杀</el-button>
+     <!-- 列表组件 -->
+     <v-list @edit="edit"></v-list>
+     <!-- 添加/修改组件 -->
+     <v-info :info="info" ref="dialog"></v-info>
   </div>
 </template>
 <script>
-import Vlist from './vlist'
-import Vinfo from './vinfo'
+import VList from "./vlist"
+import VInfo from "./vinfo"
 export default {
     data(){
-        return{ 
-            info:{
-                isAdd:true,
-                isShow:false
-            }
+        return{
+          info:{ // 这是组件的info变量！
+            isAdd:false,
+            isShow:false
+          }
         }
     },
     created(){},
     methods:{
-        add(){
-            this.info.isShow = this.info.isAdd = true
-        },
-        edit(val){
-            this.info.isShow=true;
-            this.info.isAdd = false;
-            this.$refs.dialog.setInfo(val)
-        }
+      add(){
+        this.info.isAdd =  this.info.isShow = true
+      },
+      edit(val){
+        this.info.isAdd = false;
+        this.info.isShow = true;
+        // 调用弹框组件的setinfo方法！
+        this.$refs.dialog.setinfo(val);
+      }
     },
-    mounted() {
-        // console.log(this.$refs.dialog);
-    },
-    components:{Vlist,Vinfo}
+    components:{
+      VList,VInfo
+    }
 }
 </script>
 <style scoped>

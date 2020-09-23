@@ -118,6 +118,7 @@ export default {
           for (let k in this.forminfo) {
             fd.append(k, this.forminfo[k]);
           }
+          
           if (this.info.isAdd) {
             res = await addCategory(fd);
           } else {
